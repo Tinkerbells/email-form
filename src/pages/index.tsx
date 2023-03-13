@@ -24,7 +24,7 @@ const Home: NextPage = () => {
 
   return (
     <main>
-      <div className="font-wremena flex flex-col items-center px-5 pt-8 text-xl lowercase text-[#898988] sm:px-32 lg:text-3xl">
+      <div className="flex flex-col items-center px-5 pt-8 font-wremena text-xl lowercase text-[#898988] sm:px-32 lg:text-3xl">
         <div>
           <span className="absolute left-0 ml-8">1</span>
           {src ? (
@@ -61,7 +61,7 @@ const Home: NextPage = () => {
             ищите свой ответ в онлайн-исследовании
           </p>
           <a
-            className="group mb-20 grid h-14 w-96 place-items-center rounded-[37px]"
+            className="group mb-20 flex h-14 w-96 items-center justify-center rounded-[37px] "
             href="https://instagram.com/tri_milliarda_vatt?igshid=YmMyMTA2M2Y="
           >
             <div className="delay-250 z-[-1] h-full w-full rounded-[37px] border-2 shadow-[0_4px_4px_4px_rgba(0,0,0,0.83)] blur-[6px] transition ease-in group-hover:bg-[#BBBBBB]"></div>
