@@ -58,5 +58,4 @@ export default async function handler(
     }
     res.status(200).json({ email: "sent", data, attachments });
   }
-  res.status(400).json({ message: "Bad request" });
 }
