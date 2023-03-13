@@ -7,6 +7,7 @@ import Input from "./Input";
 import { LinkIcon } from "./LinkIcon";
 const Form = () => {
   const { register, handleSubmit } = useForm();
+  const [buttonText, setButtonText] = useState<string>("отправить");
   const [files, setFiles] = useState<File[]>([]);
   const [images, setImages] = useState<string[]>([]);
 
@@ -53,12 +54,12 @@ const Form = () => {
             "Content-Type": "multipart/form-data",
           },
         });
-        console.log(response.data); // log response data
+
+        setButtonText("ответ записан!");
       } catch (error) {
         console.error(error);
       }
     }
-    // if (files) data.files = files;
   };
 
   useEffect(() => {
@@ -139,7 +140,7 @@ const Form = () => {
       >
         <div className="delay-250 z-[-1] h-full w-full rounded-[37px] border-2 shadow-[0_4px_4px_4px_rgba(0,0,0,0.83)] blur-[6px] transition ease-in group-hover:bg-[#BBBBBB]"></div>
         <span className="delay-250 absolute transition ease-in group-hover:text-white">
-          отправить
+          {buttonText}
         </span>
       </button>
     </form>
