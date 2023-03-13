@@ -135,7 +135,7 @@ const Form = () => {
       </button>
       <ExampleImages />
       <button
-        className="group mb-20 grid h-14 w-96 place-items-center rounded-[37px] "
+        className="group mb-20 flex h-14 w-96 items-center justify-center rounded-[37px] "
         type="submit"
       >
         <div className="delay-250 z-[-1] h-full w-full rounded-[37px] border-2 shadow-[0_4px_4px_4px_rgba(0,0,0,0.83)] blur-[6px] transition ease-in group-hover:bg-[#BBBBBB]"></div>
