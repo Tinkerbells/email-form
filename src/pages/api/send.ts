@@ -46,7 +46,7 @@ export default async function handler(
               <h2>Пол - ${data.fields.gender}</h2>
               <h2>Возраст - ${data.fields.age}</h2>
               <h2>Cлово-ассоциация - ${data.fields.loveWord}</h2>
-              <h2>Геолокация - ${data.fields.geoLink}></h2>
+              <h2>Геолокация - ${data.fields.geoLink}</h2>
               <h2>Что связано с этим местом - ${data.fields.geoDesc}</h2>
              </div>`,
       attachments: attachments,
