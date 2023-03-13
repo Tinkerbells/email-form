@@ -1,3 +1,19 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@font-face {
+  font-family: "wremena";
+  src: url("../assets/fonts/wremena/Wremena Regular.otf");
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Works for Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}

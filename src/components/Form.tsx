@@ -119,7 +119,7 @@ const Form = () => {
           <div className="mb-2">
             <div className="grid max-w-[700px] grid-cols-5 items-center gap-2 object-contain">
               {images.map((image) => (
-                <div key={image}>
+                <div key={image} className="h-full">
                   <Image
                     src={image}
                     alt="Ваша картинка"
