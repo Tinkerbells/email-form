@@ -1,10 +1,5 @@
 import { FC, InputHTMLAttributes } from "react";
-import {
-  FieldValues,
-  RegisterOptions,
-  useForm,
-  UseFormRegister,
-} from "react-hook-form";
+import { FieldValues, UseFormRegister } from "react-hook-form";
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   name: string;

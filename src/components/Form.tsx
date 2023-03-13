@@ -5,19 +5,8 @@ import { useForm } from "react-hook-form";
 import ExampleImages from "./ExampleImages";
 import Input from "./Input";
 import { LinkIcon } from "./LinkIcon";
-interface IFormData {
-  gender: string;
-  age: string;
-  loveWord: string;
-  geoLink: string;
-  geoDesc: string;
-}
 const Form = () => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
+  const { register, handleSubmit } = useForm();
   const [files, setFiles] = useState<File[]>([]);
   const [images, setImages] = useState<string[]>([]);
 
