@@ -7,7 +7,7 @@ const ExampleImages = () => {
   return (
     <div className="flex flex-col items-center">
       <p>пример съёмки:</p>
-      <div className="grid max-w-[700px] grid-cols-4 items-center object-contain">
+      <div className="grid max-w-[700px] grid-cols-4 items-center gap-3 object-contain">
         <div>
           <Image
             src={Example.src}

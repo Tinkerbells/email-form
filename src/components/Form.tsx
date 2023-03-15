@@ -2,6 +2,7 @@ import axios from "axios";
 import Image from "next/image";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
+import { CloseIcon } from "./CloseIcon";
 import ExampleImages from "./ExampleImages";
 import Input from "./Input";
 import { LinkIcon } from "./LinkIcon";
@@ -14,6 +15,7 @@ const Form = () => {
   const inputRef = useRef<HTMLInputElement | null>(null);
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
     const length = files?.length || 0;
     if (length < 5)
       if (e.target) {
@@ -21,7 +23,6 @@ const Form = () => {
         if (files) {
           if (files.length > 5) {
             alert("Маск кол-во файлов 5.");
-            e.preventDefault();
             return;
           }
           const limit = 5 - length;
@@ -35,6 +36,15 @@ const Form = () => {
         }
       }
   };
+  const handleDeleteImage = (
+    index: number,
+    e: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    const newFiles = files.filter((_, i) => i != index);
+    const newImages = images.filter((_, i) => i != index);
+    setFiles(newFiles);
+    setImages(newImages);
+  };
 
   const onSubmit = async (data: any) => {
     const formData = new FormData();
@@ -47,26 +57,20 @@ const Form = () => {
       for (let i = 0; i < files.length; i++) {
         formData.append(files[i]?.name!, files[i]!);
       }
-      console.log(formData, files);
       try {
+        setButtonText("отправка...");
         const response = await axios.post("/api/send", formData, {
           headers: {
             "Content-Type": "multipart/form-data",
           },
         });
-
         setButtonText("ответ записан!");
+        console.log(response);
       } catch (error) {
         console.error(error);
       }
     }
   };
-
-  useEffect(() => {
-    if (files) {
-      console.log(files);
-    }
-  }, [files]);
 
   const handleUploadClick = () => {
     inputRef.current?.click();
@@ -74,7 +78,7 @@ const Form = () => {
 
   return (
     <form
-      className="mt-6 flex w-full flex-col items-center gap-4"
+      className="mt-6 flex w-full flex-col items-center gap-24"
       onSubmit={handleSubmit(onSubmit)}
     >
       <span className="absolute left-0 ml-8">3</span>
@@ -95,32 +99,37 @@ const Form = () => {
         label="расскажите, что связано с этим местом"
         register={register}
       />
-      <button
-        className="flex w-full flex-col items-center gap-2 border-b-2 border-[#B4B4B4]"
-        type="button"
-        onClick={handleUploadClick}
-      >
-        <p className="max-w-[850px] text-center lowercase">
-          Пришлите фотографию/и вашего проводника любви: предмета, с которым у
-          вас связаны важные ассоциации <br />
-          (не более 5)
-        </p>
-        <div className="m-3 place-self-end">
-          <LinkIcon />
-          <input
-            type="file"
-            className="hidden"
-            ref={inputRef}
-            accept="image/*"
-            multiple
-            onChange={handleFileChange}
-          />
-        </div>
+      <div className="flex w-full flex-col items-center gap-2 border-b-2 border-[#B4B4B4]">
+        <button type="button" onClick={handleUploadClick} className="flex">
+          <p className="max-w-[850px] text-center lowercase">
+            Пришлите фотографию/и вашего проводника любви: предмета, с которым у
+            вас связаны важные ассоциации <br />
+            (не более 5)
+          </p>
+          <div className="m-3 place-self-end">
+            <LinkIcon />
+            <input
+              type="file"
+              className="hidden"
+              ref={inputRef}
+              accept="image/*"
+              multiple
+              onChange={handleFileChange}
+            />
+          </div>
+        </button>
         {images ? (
           <div className="mb-2">
-            <div className="grid max-w-[700px] grid-cols-5 items-center gap-2 object-contain">
-              {images.map((image) => (
-                <div key={image} className="h-full">
+            <div className="grid max-w-[900px] grid-cols-5 items-center gap-2 object-contain">
+              {images.map((image, index) => (
+                <div key={image} className="relative m-2 h-full">
+                  <button
+                    type="button"
+                    className="group absolute -right-5 -top-5 rounded-full bg-[#BBBBBB] p-2"
+                    onClick={(e) => handleDeleteImage(index, e)}
+                  >
+                    <CloseIcon className="delay-250 fill-black transition ease-in group-hover:fill-white" />
+                  </button>
                   <Image
                     src={image}
                     alt="Ваша картинка"
@@ -133,13 +142,12 @@ const Form = () => {
             </div>
           </div>
         ) : null}
-      </button>
+      </div>
       <ExampleImages />
       <button
-        className="group mb-20 flex h-14 w-96 items-center justify-center rounded-[37px] "
+        className="group mb-20 flex h-14 w-96 items-center justify-center rounded-[37px] bg-[#BBBBBB]"
         type="submit"
       >
-        <div className="delay-250 z-[-1] h-full w-full rounded-[37px] border-2 shadow-[0_4px_4px_4px_rgba(0,0,0,0.83)] blur-[6px] transition ease-in group-hover:bg-[#BBBBBB]"></div>
         <span className="delay-250 absolute transition ease-in group-hover:text-white">
           {buttonText}
         </span>
