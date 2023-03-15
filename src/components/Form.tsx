@@ -106,42 +106,48 @@ const Form = () => {
             вас связаны важные ассоциации <br />
             (не более 5)
           </p>
-          <div className="m-3 place-self-end">
-            <LinkIcon />
-            <input
-              type="file"
-              className="hidden"
-              ref={inputRef}
-              accept="image/*"
-              multiple
-              onChange={handleFileChange}
-            />
-          </div>
+          <input
+            type="file"
+            className="hidden"
+            ref={inputRef}
+            accept="image/*"
+            multiple
+            onChange={handleFileChange}
+          />
         </button>
-        {images ? (
-          <div className="mb-2">
-            <div className="grid max-w-[900px] grid-cols-5 items-center gap-2 object-contain">
-              {images.map((image, index) => (
-                <div key={image} className="relative m-2 h-full">
-                  <button
-                    type="button"
-                    className="group absolute -right-5 -top-5 rounded-full bg-[#BBBBBB] p-2"
-                    onClick={(e) => handleDeleteImage(index, e)}
-                  >
-                    <CloseIcon className="delay-250 fill-black transition ease-in group-hover:fill-white" />
-                  </button>
-                  <Image
-                    src={image}
-                    alt="Ваша картинка"
-                    className="h-auto max-w-full"
-                    width={200}
-                    height={200}
-                  />
-                </div>
-              ))}
+        <div className="flex w-full items-center justify-between">
+          {images ? (
+            <div className="mb-2">
+              <div className="flex max-w-[900px] items-center gap-2 object-contain">
+                {images.map((image, index) => (
+                  <div key={image} className="relative m-2 mt-8 h-full">
+                    <button
+                      type="button"
+                      className="group absolute -right-5 -top-5 h-8 w-8 rounded-full bg-[#BBBBBB] p-2"
+                      onClick={(e) => handleDeleteImage(index, e)}
+                    >
+                      <CloseIcon className="delay-250 h-full w-full fill-black transition ease-in group-hover:fill-white" />
+                    </button>
+                    <Image
+                      src={image}
+                      alt="Ваша картинка"
+                      className="h-auto max-w-full"
+                      width={200}
+                      height={200}
+                    />
+                  </div>
+                ))}
+              </div>
             </div>
-          </div>
-        ) : null}
+          ) : null}
+          <button
+            className="my-4 mr-2 place-self-end"
+            type="button"
+            onClick={handleUploadClick}
+          >
+            <LinkIcon className="h-full w-full" />
+          </button>
+        </div>
       </div>
       <ExampleImages />
       <button
