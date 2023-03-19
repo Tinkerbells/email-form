@@ -1,13 +1,13 @@
 import { env } from "@/env.mjs";
 import axios from "axios";
 import Image from "next/image";
-import { ChangeEvent, useEffect, useRef, useState } from "react";
+import { ChangeEvent, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { CloseIcon } from "./CloseIcon";
 import ExampleImages from "./ExampleImages";
 import Input from "./Input";
 import { LinkIcon } from "./LinkIcon";
-const MAX_SIZE = 4024;
+const MAX_SIZE = 4300;
 const Form = () => {
   const { register, handleSubmit } = useForm();
   const [buttonText, setButtonText] = useState<string>("отправить");
@@ -17,41 +17,32 @@ const Form = () => {
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
-    if (e.target) {
-      const { files } = e.target;
-      if (files) {
-        let size = 0;
-        for (let i = 0; i < files.length; i++) {
-          const file = files[i];
-          size += file!.size / 1024;
-          if (size > MAX_SIZE) {
-            console.log("@", size);
-            alert("Максимальный размер всех файлов не больше 5МБ");
+    const length = files?.length || 0;
+    if (length < 5)
+      if (e.target.files) {
+        const { files: uploadedFiles } = e.target;
+        if (uploadedFiles) {
+          if (uploadedFiles.length > 5) {
+            alert("Маск кол-во файлов 5.");
             return;
-          } else {
+          }
+          let size = 0;
+          files.forEach((file) => (size += file.size / 1024));
+          const limit = 5 - length;
+          for (let i = 0; i < limit; i++) {
+            const file = uploadedFiles[i];
             if (file) {
-              setFiles((prev) => [...prev, file]);
-              setImages((prev) => [...prev, URL.createObjectURL(file)]);
+              if (size + file.size / 1024 < MAX_SIZE) {
+                setFiles((prev) => [...prev, file]);
+                setImages((prev) => [...prev, URL.createObjectURL(file)]);
+              } else {
+                alert("Макс объем файлов 5мб!");
+              }
             }
           }
         }
       }
-    }
   };
-
-  useEffect(() => {
-    let size = 0;
-    for (let i = 0; i < files.length; i++) {
-      const file = files[i];
-      size += file!.size / 1024;
-      if (size > MAX_SIZE) {
-        console.log(size);
-        alert("Максимальный размер всех файлов не больше 5МБ");
-        return;
-      }
-    }
-  }, [files]);
-
   const handleDeleteImage = (
     index: number,
     e: React.MouseEvent<HTMLButtonElement>
@@ -120,7 +111,7 @@ const Form = () => {
           <p className="max-w-[850px] text-center lowercase">
             Пришлите фотографию/и вашего проводника любви: предмета, с которым у
             вас связаны важные ассоциации <br />
-            (объем всех не болле 5мб)
+            (неболее 5, макс объем более 5мб)
           </p>
           <input
             type="file"
