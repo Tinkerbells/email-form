@@ -1,12 +1,13 @@
 import { env } from "@/env.mjs";
 import axios from "axios";
 import Image from "next/image";
-import { ChangeEvent, useRef, useState } from "react";
+import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { CloseIcon } from "./CloseIcon";
 import ExampleImages from "./ExampleImages";
 import Input from "./Input";
 import { LinkIcon } from "./LinkIcon";
+const MAX_SIZE = 4024;
 const Form = () => {
   const { register, handleSubmit } = useForm();
   const [buttonText, setButtonText] = useState<string>("отправить");
@@ -16,18 +17,18 @@ const Form = () => {
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
-    const length = files?.length || 0;
-    if (length < 5)
-      if (e.target) {
-        const { files } = e.target;
-        if (files) {
-          if (files.length > 5) {
-            alert("Маск кол-во файлов 5.");
+    if (e.target) {
+      const { files } = e.target;
+      if (files) {
+        let size = 0;
+        for (let i = 0; i < files.length; i++) {
+          const file = files[i];
+          size += file!.size / 1024;
+          if (size > MAX_SIZE) {
+            console.log("@", size);
+            alert("Максимальный размер всех файлов не больше 5МБ");
             return;
-          }
-          const limit = 5 - length;
-          for (let i = 0; i < limit; i++) {
-            const file = files[i];
+          } else {
             if (file) {
               setFiles((prev) => [...prev, file]);
               setImages((prev) => [...prev, URL.createObjectURL(file)]);
@@ -35,7 +36,22 @@ const Form = () => {
           }
         }
       }
+    }
   };
+
+  useEffect(() => {
+    let size = 0;
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+      size += file!.size / 1024;
+      if (size > MAX_SIZE) {
+        console.log(size);
+        alert("Максимальный размер всех файлов не больше 5МБ");
+        return;
+      }
+    }
+  }, [files]);
+
   const handleDeleteImage = (
     index: number,
     e: React.MouseEvent<HTMLButtonElement>
@@ -59,15 +75,11 @@ const Form = () => {
       }
       try {
         setButtonText("отправка...");
-        const response = await axios.post(
-          "https://email-form-back.vercel.app/v1/send-form",
-          formData,
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-          }
-        );
+        const response = await axios.post("api/send", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
         setButtonText("ответ записан!");
         console.log(response);
       } catch (error) {
