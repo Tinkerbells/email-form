@@ -59,11 +59,15 @@ const Form = () => {
       }
       try {
         setButtonText("отправка...");
-        const response = await axios.post(env.BASE_URL, formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        });
+        const response = await axios.post(
+          "https://email-form-back.vercel.app/v1/send-form",
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
         setButtonText("ответ записан!");
         console.log(response);
       } catch (error) {
