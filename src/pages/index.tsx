@@ -24,9 +24,9 @@ const Home: NextPage = () => {
 
   return (
     <main>
-      <div className="flex flex-col items-center px-5 pt-8 font-wremena text-xl lowercase text-[#898988] sm:px-32 lg:text-3xl">
+      <div className="flex flex-col items-center px-2 pt-8 font-wremena text-xl lowercase text-[#898988] sm:px-32 lg:text-3xl">
         <div>
-          <span className="absolute left-0 ml-8">1</span>
+          <span className="absolute left-0 ml-2 lg:ml-8">1</span>
           {src ? (
             <Image
               className="max-w-[300px] lg:max-w-[700px]"
@@ -38,9 +38,9 @@ const Home: NextPage = () => {
             />
           ) : null}
         </div>
-        <div className="mt-6 flex max-w-[940px] flex-col gap-8 px-5 text-center">
+        <div className="mt-6 flex max-w-[840px] flex-col gap-8 px-5 text-center">
           <p>
-            <span className="absolute left-0 ml-8">2</span>
+            <span className="absolute left-0 ml-2 lg:ml-8">2</span>
             это исследование для выставки «Три миллиарда ватт». спасибо, что
             участвуете и делитесь своими ощущениями. 
           </p>
@@ -52,7 +52,7 @@ const Home: NextPage = () => {
         <div className="mt-16 flex flex-col items-center gap-7">
           <Form />
           <p className="text-center">
-            <span className="absolute left-0 ml-8">4</span>
+            <span className="absolute left-0 ml-2 lg:ml-8">4</span>
             благодарим за участие! <br />
             ищите свой ответ в онлайн-исследовании
           </p>

@@ -1,6 +1,7 @@
+import { env } from "@/env.mjs";
 import axios from "axios";
 import Image from "next/image";
-import { ChangeEvent, useEffect, useRef, useState } from "react";
+import { ChangeEvent, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { CloseIcon } from "./CloseIcon";
 import ExampleImages from "./ExampleImages";
@@ -11,7 +12,6 @@ const Form = () => {
   const [buttonText, setButtonText] = useState<string>("отправить");
   const [files, setFiles] = useState<File[]>([]);
   const [images, setImages] = useState<string[]>([]);
-
   const inputRef = useRef<HTMLInputElement | null>(null);
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -59,7 +59,7 @@ const Form = () => {
       }
       try {
         setButtonText("отправка...");
-        const response = await axios.post("/api/send", formData, {
+        const response = await axios.post(env.BASE_URL, formData, {
           headers: {
             "Content-Type": "multipart/form-data",
           },
@@ -81,7 +81,7 @@ const Form = () => {
       className="mt-6 flex w-full flex-col items-center gap-24"
       onSubmit={handleSubmit(onSubmit)}
     >
-      <span className="absolute left-0 ml-8">3</span>
+      <span className="absolute left-0 ml-2 lg:ml-8">3</span>
       <Input name="gender" label="ваш пол" register={register} />
       <Input name="age" label="ваш возраст" type="number" register={register} />
       <Input
@@ -104,7 +104,7 @@ const Form = () => {
           <p className="max-w-[850px] text-center lowercase">
             Пришлите фотографию/и вашего проводника любви: предмета, с которым у
             вас связаны важные ассоциации <br />
-            (не более 5)
+            (объем всех не болле 5мб)
           </p>
           <input
             type="file"
@@ -145,7 +145,7 @@ const Form = () => {
             type="button"
             onClick={handleUploadClick}
           >
-            <LinkIcon className="h-full w-full" />
+            <LinkIcon />
           </button>
         </div>
       </div>
